@@ -289,9 +289,6 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
             # วาดเส้นทั้งหมดลงใน frame
             cv2.line(frame, line1[0], line1[1], (255, 255, 255), 2)
             cv2.line(frame, line2[0], line2[1], (255, 255, 255), 2)
-        if mmglobal.frame_count == 9000:
-            print("5 minute")
-            break
         if ret_val:
             if mmglobal.frame_count % (30*60) == 0 and mmglobal.frame_count != 0:
                 print(mmglobal.frame_count/1800," minute")
@@ -300,6 +297,9 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                 speed_list_1min.append(speed_avg)
                 print("All average time",speed_list_1min)
                 speed_avg = 0
+            if mmglobal.frame_count == 9000:
+                print("5 minute")
+                break
             # Process every n frames
             if mmglobal.frame_count % 3 == 0:
                 outputs, img_info = predictor.inference(frame)
