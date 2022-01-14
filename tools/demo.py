@@ -178,10 +178,11 @@ class Predictor(object):
         output = output.cpu()
 
         bboxes = output[:, 0:4]
-        print("bboxes/= ratio",bboxes)
         # preprocessing: resize
         bboxes /= ratio
-        print("bboxes/= ratio",bboxes)
+        cls = output[:, 6]
+        scores = output[:, 4] * output[:, 5]
+        vis_res = vis(img, bboxes, scores, cls, cls_conf, self.cls_names)
         for i in range(len(bboxes)):
             b1 = bboxes[i][0] 
             b2 = bboxes[i][1]  
@@ -191,11 +192,7 @@ class Predictor(object):
             h = b4 - b2
             bboxes[i][2] = w
             bboxes[i][3] = h
-        print("bboxes(w.h)",bboxes)
-        cls = output[:, 6]
-        scores = output[:, 4] * output[:, 5]
         a = [bboxes, scores, cls]
-        vis_res = vis(img, bboxes, scores, cls, cls_conf, self.cls_names)
         return vis_res, a
 
 
