@@ -291,11 +291,11 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
             cv2.line(frame, line2[0], line2[1], (255, 255, 255), 2)
         if ret_val:
             if mmglobal.frame_count % (30*60) == 0 and mmglobal.frame_count != 0:
-                print("In 1 min")
+                print(mmglobal.frame_count-1800," minute")
                 print("speed_list: ", speed_list)
                 print(len(speed_list))
                 speed_list_1min.append(speed_avg)
-                print(speed_list_1min)
+                print("All average time",speed_list_1min)
                 speed_avg = 0
             # Process every n frames
             if mmglobal.frame_count % 3 == 0:
@@ -349,7 +349,6 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
-                        print("time_mem",time_mem[track.track_id])
                         line_tc[0][0] += 1
                         # draw alert line
                         cv2.line(frame, line1[0], line1[1], (0, 0, 255), 2)
@@ -364,7 +363,6 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
-                        print("time_mem",time_mem[track.track_id])
                         line_tc[0][1] += 1
                         # draw alert line
                         cv2.line(frame, line2[0], line2[1], (0, 0, 255), 2)
