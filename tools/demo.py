@@ -227,6 +227,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
     width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)  # float
     height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)  # float
     fps = cap.get(cv2.CAP_PROP_FPS)
+    print("FPS",fps)
     save_folder = os.path.join(
         vis_folder, time.strftime("%Y_%m_%d_%H_%M_%S", current_time)
     )
@@ -296,7 +297,6 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                 speed_list_1min.append(speed_avg)
                 print(speed_list_1min)
                 speed_avg = 0
-            print("Frame : ",mmglobal.frame_count)
             # Process every n frames
             if mmglobal.frame_count % 3 == 0:
                 outputs, img_info = predictor.inference(frame)
@@ -345,7 +345,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                     #เช็คการตัดในเส้นที่ 1 
                     TC1 = CheckCrossLine.LineCrossing(midpoint, previous_midpoint, line1[0] ,line1[1])
                     if TC1 and (track.track_id not in line1_ac):
-                        print(track.track_id,"ตัด TC1")
+                        print("Frame ",mmglobal.frame_count," ",track.track_id," ตัด TC1")
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
@@ -359,7 +359,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                     #เช็คการตัดในเส้นที่ 2 
                     TC2 = CheckCrossLine.LineCrossing(midpoint, previous_midpoint, line2[0] ,line2[1])
                     if TC2 and (track.track_id not in line2_ac):
-                        print(track.track_id,"ตัด TC2")
+                        print("Frame ",mmglobal.frame_count," ",track.track_id," ตัด TC2")
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
@@ -380,9 +380,9 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                         savg = 0
                         co = len(speed_list)
                         for s in speed_list:
-                            savg += speed_list[s]
+                            savg += s
                         speed_avg = ('%.2f' % (savg/co))
-                        print("Frame:",frame_index ," ID:" ,track.track_id ," speed:" ,('%.2f' %speed))
+                        print("Frame:",mmglobal.frame_count ," ID:" ,track.track_id ," speed:" ,('%.2f' %speed))
                         
                     cv2.putText(frame, "ID: " + str(track.track_id), (int(bbox[0]), int(bbox[1])), 0, 1.5e-3 * frame.shape[0], (0, 255, 0), 2)
                 
