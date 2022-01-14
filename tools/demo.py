@@ -301,7 +301,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
             if mmglobal.frame_count % 3 == 0:
                 outputs, img_info = predictor.inference(frame)
                 if outputs == [None]:
-                  print(mmglobal.frame_count ," : outputs == [None]")
+                  continue
                 else:
                   #รับข้อมูลทุกอย่าง
                   result_frame, a = predictor.visual(outputs[0], img_info, predictor.confthre)
@@ -349,6 +349,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
+                        print("time_mem",time_mem[track.track_id])
                         line_tc[0][0] += 1
                         # draw alert line
                         cv2.line(frame, line1[0], line1[1], (0, 0, 255), 2)
@@ -363,6 +364,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
+                        print("time_mem",time_mem[track.track_id])
                         line_tc[0][1] += 1
                         # draw alert line
                         cv2.line(frame, line2[0], line2[1], (0, 0, 255), 2)
@@ -371,18 +373,20 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                         intersect_info[0].append([track_cls, origin_midpoint, intersection_time])
 
                     if track.track_id in time_mem and len(time_mem[track.track_id]) == 2:
+                        
                         time1 = time_mem[track.track_id][0]
                         time2 = time_mem[track.track_id][1]
-                        time_mem[track.track_id] = []
-                        realtime = (time2-time1)/30 # แปลงเวลาในหน่วยเฟรมเป็นวินาที
-                        speed = (distance/realtime)*3.6 # คำนวณและแปลงหน่วยเป็นกิโลเมตรต่อชั่วโมง
-                        speed_list.append(speed) # เก็บความเร็วที่คำนวณได้ของรถแต่ละคัน
-                        savg = 0
-                        co = len(speed_list)
-                        for s in speed_list:
-                            savg += s
-                        speed_avg = ('%.2f' % (savg/co))
-                        print("Frame:",mmglobal.frame_count ," ID:" ,track.track_id ," speed:" ,('%.2f' %speed))
+                        if time1 != time2:
+                          time_mem[track.track_id] = []
+                          realtime = (time2-time1)/30 # แปลงเวลาในหน่วยเฟรมเป็นวินาที
+                          speed = (distance/realtime)*3.6 # คำนวณและแปลงหน่วยเป็นกิโลเมตรต่อชั่วโมง
+                          speed_list.append(speed) # เก็บความเร็วที่คำนวณได้ของรถแต่ละคัน
+                          savg = 0
+                          co = len(speed_list)
+                          for s in speed_list:
+                              savg += s
+                          speed_avg = ('%.2f' % (savg/co))
+                          print("Frame:",mmglobal.frame_count ," ID:" ,track.track_id ," speed:" ,('%.2f' %speed))
                         
                     cv2.putText(frame, "ID: " + str(track.track_id), (int(bbox[0]), int(bbox[1])), 0, 1.5e-3 * frame.shape[0], (0, 255, 0), 2)
                 
