@@ -182,7 +182,7 @@ class Predictor(object):
         # preprocessing: resize
         bboxes /= ratio
         print("bboxes/= ratio",bboxes)
-        for i in range(bboxes):
+        for i in range(len(bboxes)):
             b1 = bboxes[i][0] 
             b2 = bboxes[i][1]  
             b3 = bboxes[i][2]
@@ -400,9 +400,6 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                 cv2.putText(frame, "Total{}: {},{}".format(str(xx),str(line_tc[0][0]),str(line_tc[0][1])), (int(0.05 * frame.shape[1]), int(yy)), 0,
                             1.5e-3 * frame.shape[0], (0, 255, 255), 2)
                 yy += 0.1 * frame.shape[0]
-                #print("Frame:",frame_index,": ",line_tc[ll])
-                cv2.putText(frame, "frame_index {}".format(str(frame_index+1)), (int(0.5 * frame.shape[1]), int(0.9 * frame.shape[0])), 0,
-                              1.5e-3 * frame.shape[0], (255, 255, 255), 2)
                 cv2.putText(frame, "speed_avg {}".format(speed_avg), (int(0.7 * frame.shape[1]), int(0.05 * frame.shape[0])), 0,
                               1.5e-3 * frame.shape[0], (255, 255, 255), 2)
                     
