@@ -178,10 +178,19 @@ class Predictor(object):
         output = output.cpu()
 
         bboxes = output[:, 0:4]
-
+        print("bboxes/= ratio",bboxes)
         # preprocessing: resize
         bboxes /= ratio
-
+        print("bboxes/= ratio",bboxes)
+        b1 = bboxes[0] 
+        b2 = bboxes[1]  
+        b3 = bboxes[2]
+        b4 = bboxes[3] 
+        w = b3 - b1
+        h = b4 - b2
+        bboxes[2] = w
+        bboxes[3] = h
+        print("bboxes(w.h)",bboxes)
         cls = output[:, 6]
         scores = output[:, 4] * output[:, 5]
         a = [bboxes, scores, cls]
