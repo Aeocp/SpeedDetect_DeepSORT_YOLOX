@@ -348,7 +348,6 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                     #เช็คการตัดในเส้นที่ 1 
                     TC1 = CheckCrossLine.LineCrossing(midpoint, previous_midpoint, line1[0] ,line1[1])
                     if TC1 and (track.track_id not in line1_ac):
-                        print("Frame ",mmglobal.frame_count," ",track.track_id," ตัด TC1")
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
@@ -362,7 +361,6 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                     #เช็คการตัดในเส้นที่ 2 
                     TC2 = CheckCrossLine.LineCrossing(midpoint, previous_midpoint, line2[0] ,line2[1])
                     if TC2 and (track.track_id not in line2_ac):
-                        print("Frame ",mmglobal.frame_count," ",track.track_id," ตัด TC2")
                         if track.track_id not in time_mem:
                             time_mem[track.track_id] = []
                         time_mem[track.track_id].append(mmglobal.frame_count)
