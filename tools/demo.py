@@ -290,15 +290,15 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
             cv2.line(frame, line1[0], line1[1], (255, 255, 255), 2)
             cv2.line(frame, line2[0], line2[1], (255, 255, 255), 2)
         if ret_val:
-            if mmglobal.frame_count % (30*60) == 0 and mmglobal.frame_count != 0:
+            if mmglobal.frame_count % (fps*60) == 0 and mmglobal.frame_count != 0:
                 print(mmglobal.frame_count/1800," minute")
                 print("speed_list: ", speed_list)
                 print(len(speed_list))
                 speed_list_1min.append(speed_avg)
                 print("All average time",speed_list_1min)
                 speed_avg = 0
-            if mmglobal.frame_count == 9000:
-                print("5 minute")
+            if mmglobal.frame_count == (fps*60*3):
+                print("3 minute")
                 break
             # Process every n frames
             if mmglobal.frame_count % 3 == 0:
@@ -377,7 +377,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                         time2 = time_mem[track.track_id][1]
                         if time1 != time2:
                           time_mem[track.track_id] = []
-                          realtime = (time2-time1)/30 # แปลงเวลาในหน่วยเฟรมเป็นวินาที
+                          realtime = (time2-time1)/fps # แปลงเวลาในหน่วยเฟรมเป็นวินาที
                           speed = (distance/realtime)*3.6 # คำนวณและแปลงหน่วยเป็นกิโลเมตรต่อชั่วโมง
                           speed_list.append(speed) # เก็บความเร็วที่คำนวณได้ของรถแต่ละคัน
                           savg = 0
