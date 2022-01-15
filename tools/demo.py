@@ -291,7 +291,7 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
             cv2.line(frame, line2[0], line2[1], (255, 255, 255), 2)
         if ret_val:
             if mmglobal.frame_count % (fps*60) == 0 and mmglobal.frame_count != 0:
-                print(mmglobal.frame_count/1800," minute")
+                print(mmglobal.frame_count/(fps*60) ," minute")
                 print("speed_list: ", speed_list)
                 print(len(speed_list))
                 speed_list_1min.append(speed_avg)
