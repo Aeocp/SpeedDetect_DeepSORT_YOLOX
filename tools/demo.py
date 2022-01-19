@@ -298,6 +298,10 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
                 print("All average time",speed_list_1min)
                 speed_avg = 0
             if mmglobal.frame_count == (fps*60*3):
+                with open("/content/outputspeed.txt", "a") as writefile:
+                  writefile.write("1,2,3" +"\n")
+                  for i in speed_list_1min:
+                    writefile.write("%s" % (i)+",")
                 print("3 minute")
                 break
             # Process every n frames
